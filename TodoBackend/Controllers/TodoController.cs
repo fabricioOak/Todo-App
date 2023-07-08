@@ -63,5 +63,59 @@ namespace TodoBackend.Controllers
         return BadRequest(ex.Message);
       }
     }
+
+    [HttpPut]
+    [Route("todos/{id}")]
+    public async Task<IActionResult> UpdateAsync(
+      [FromServices] AppDbContext context,
+      [FromRoute] int id,
+      [FromBody] UpdateTodoViewModel model)
+    {
+      if (!ModelState.IsValid) return BadRequest();
+
+      var todo = await context.Todos.FirstOrDefaultAsync(x => x.Id == id);
+
+      if (todo == null) return NotFound();
+
+      try
+      {
+        todo.Title = model.Title;
+        todo.Content = model.Content;
+        todo.Done = model.Done;
+
+        context.Todos.Update(todo);
+        await context.SaveChangesAsync();
+
+        return Ok(todo);
+      }
+      catch (Exception ex)
+      {
+        return BadRequest(ex.Message);
+      }
+    }
+    [HttpDelete]
+    [Route("todos/{id}")]
+    public async Task<IActionResult> DeleteAsync(
+      [FromServices] AppDbContext context,
+      [FromRoute] int id)
+    {
+      if (!ModelState.IsValid) return BadRequest();
+
+      var todo = await context.Todos.FirstOrDefaultAsync(x => x.Id == id);
+
+      if (todo == null) return NotFound();
+
+      try
+      {
+        context.Todos.Remove(todo);
+        await context.SaveChangesAsync();
+
+        return Ok("Todo deleted");
+      }
+      catch (Exception ex)
+      {
+        return BadRequest(ex.Message);
+      }
+    }
   }
 }
