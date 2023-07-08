@@ -79,8 +79,6 @@ namespace TodoBackend.Controllers
 
       try
       {
-        todo.Title = model.Title;
-        todo.Content = model.Content;
         todo.Done = model.Done;
 
         context.Todos.Update(todo);
