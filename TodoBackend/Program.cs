@@ -1,4 +1,3 @@
-
 using TodoBackend.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,15 +5,6 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container
 builder.Services.AddControllers();
 builder.Services.AddDbContext<AppDbContext>();
-builder.Services.AddCors(options =>
-{
-  options.AddPolicy("CorsPolicy", builder =>
-  {
-    builder.AllowAnyOrigin()
-      .AllowAnyMethod()
-      .AllowAnyHeader();
-  });
-});
 
 var app = builder.Build();
 
@@ -23,6 +13,11 @@ if (app.Environment.IsDevelopment())
 {
   app.UseDeveloperExceptionPage();
 }
+
+app.UseCors(x => x
+  .AllowAnyOrigin()
+  .AllowAnyMethod()
+  .AllowAnyHeader());
 
 app.UseRouting();
 
