@@ -68,8 +68,7 @@ namespace TodoBackend.Controllers
     [Route("todos/{id}")]
     public async Task<IActionResult> UpdateAsync(
       [FromServices] AppDbContext context,
-      [FromRoute] int id,
-      [FromBody] UpdateTodoViewModel model)
+      [FromRoute] int id)
     {
       if (!ModelState.IsValid) return BadRequest();
 
@@ -79,7 +78,7 @@ namespace TodoBackend.Controllers
 
       try
       {
-        todo.Done = model.Done;
+        todo.Done = !todo.Done;
 
         context.Todos.Update(todo);
         await context.SaveChangesAsync();
