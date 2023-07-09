@@ -58,5 +58,11 @@ export const useTodoStore = defineStore('todo', {
         headers: { 'Content-Type': 'application/json' },
       })
     },
+    async deleteAll() {
+      await fetch(TodoServices.DeleteAll, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+      })
+    },
   },
 });
