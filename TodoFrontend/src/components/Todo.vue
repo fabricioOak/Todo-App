@@ -11,7 +11,7 @@
       <div class="flex md:mx-0 my-4 justify-end mx-auto">
         <button
           @click="emit('updateState', props.id)"
-          class="button px-2 transiton-all w-full duration-200 hover:bg-green-600 bg-green-400"
+          class="button px-2 transiton-all w-full duration-200 hover:bg-green-600 bg-green-400 mr-2"
         >
           {{ props.done ? "Undo" : "Done" }}
         </button>
