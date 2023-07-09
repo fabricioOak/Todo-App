@@ -49,7 +49,8 @@ namespace TodoBackend.Controllers
       {
         Title = model.Title,
         Content = model.Content,
-        Done = false
+        Done = false,
+        CreatedAt = DateTime.Now
       };
 
       try
@@ -113,6 +114,31 @@ namespace TodoBackend.Controllers
       {
         return BadRequest(ex.Message);
       }
+    }
+    [HttpDelete]
+    [Route("todos/delete-all")]
+    public async Task<IActionResult> DeleteAllAsync(
+      [FromServices] AppDbContext context
+    )
+    {
+      if (!ModelState.IsValid) return BadRequest();
+
+      var todos = await context.Todos.ToListAsync();
+
+      if (todos == null) return NotFound();
+
+      try
+      {
+        context.Todos.RemoveRange(todos);
+        await context.SaveChangesAsync();
+
+        return Ok("All todos deleted");
+      }
+      catch (Exception ex)
+      {
+        return BadRequest(ex.Message);
+      }
+
     }
   }
 }
